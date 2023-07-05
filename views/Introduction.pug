@@ -1,0 +1,27 @@
+doctype html
+html 
+    head 
+       title Natours  
+       link(rel='stylesheet'  href='css/style.css')
+       link(rel='shortcut icon'  type='image/png'  href='img/favicon.png')
+    body
+
+        // Comment 
+        // h1 This is most exciting lecture for me . This will create a HTML comment (you can see this in html)
+    
+
+        // Buffered Code 
+        // Use to output dynamic content 
+        h1=tour.toUpperCase()
+        h3 Project Lead is Vasudev
+        p This project is taking me to the next level of web development . 
+
+         
+        // Un-buffered Code 
+        // Use to execute JavaScript inside Pug template 
+        - const age=20;
+        - const birthYear = 2001;
+
+        // Interpolation 
+        // Similar to Template string in ES6 
+        p Age of !{user} is !{age} and birth year is !{birthYear} 
