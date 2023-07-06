@@ -200,7 +200,7 @@ tourSchema.pre('save', function (next) {
 // Creating a post()-save-hook / middleware
 // Execute after all pre() middleware have completed
 tourSchema.post('save', function (doc, next) {
-  console.log(doc);
+  // console.log(doc);
   next();
 });
 

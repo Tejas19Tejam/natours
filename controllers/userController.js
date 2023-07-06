@@ -127,7 +127,7 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  console.log(req.user.id);
+  // console.log(req.user.id);
   // 1) Find user in the database and update it
   await User.findByIdAndUpdate(req.user.id, { active: false });
 

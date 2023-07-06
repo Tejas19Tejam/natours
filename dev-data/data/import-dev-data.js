@@ -28,7 +28,7 @@ mongoose
 
 const tours = JSON.parse(
   fs.readFileSync(`./tours.json`, 'utf-8', (err, data) => {
-    if (err) console.log(err);
+    if (err) return err;
     return data;
   })
 );

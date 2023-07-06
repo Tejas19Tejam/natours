@@ -11,6 +11,7 @@ const hpp = require('hpp');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const AppError = require('./utils/appError.js');
 const userRouter = require('./routes/userRoutes.js');
@@ -72,6 +73,9 @@ app.use(
     ],
   })
 );
+
+// Middleware use for compress data
+app.use(compression());
 
 // For accessing static files
 /** 

@@ -5,9 +5,7 @@ const fs = require('fs');
 // Converting json data into JS object
 
 const tours = JSON.parse(
-  fs.readFileSync(
-    `${__dirname}/../dev-data/data/tours-simple.json`
-  )
+  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
 exports.checkBody = (req, res, next) => {
@@ -49,7 +47,7 @@ exports.getAllTours = (req, res) => {
 };
 
 exports.getThisTour = (req, res) => {
-  console.log(req.params);
+  // console.log(req.params);
   const { id } = req.params;
   const tour = tours.find((tour) => tour.id === +id);
 
@@ -95,7 +93,7 @@ exports.addNewTour = (req, res) => {
       });
     }
   );
-  console.log(newTour);
+  // console.log(newTour);/????
 };
 
 exports.updateTour = (req, res) => {
