@@ -22,6 +22,10 @@ const bookingRouter = require('./routes/bookingRoutes.js');
 const viewRoutes = require('./routes/viewRoutes');
 const app = express();
 
+// Allow traffic from Reverse Proxy Server
+
+app.enable('trust-proxy');
+
 /** This code sets the view engine to Pug, indicating that Pug templates will be used to generate HTML output for this app.
  *
  * Pug Templates are called a view’s in express.
