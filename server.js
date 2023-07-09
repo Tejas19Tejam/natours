@@ -45,3 +45,10 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
   });
 });
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM receives . Shouting down gracefully !');
+  server.close(() => {
+    console.log('Process Terminated !');
+  });
+});
