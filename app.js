@@ -43,6 +43,18 @@ app.set('views', path.join(__dirname, 'views'));
 // app.use(cors());
 
 app.use(cors());
+// Access-Control-Allow-Origin  *
+
+// Suppose we need to allow only subdomain of application
+// Backend =   api.natours.com  /   Frontend =  natours.com
+
+// app.use(
+//   // This will allow only mentioned origin , to access resources from the server
+//   cors({
+//     origin: 'https://www.natours.com ',
+//   })
+// );
+
 app.use(
   helmet({
     contentSecurityPolicy: false,

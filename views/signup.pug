@@ -4,12 +4,12 @@ block content
     main.form
         div.login-form
             h2.heading-secondary.ma-bt-log Create your account 
-            form.form 
+            form.form.form--signup
                 div.form__group 
 
                     //- User name 
                     label.form__label(for='name') Your name 
-                    input#email.form__input(type='text',required)
+                    input#name.form__input(type='text',required)
 
                     //- Email Address 
                     label.form__label(for='email') Email address 
@@ -22,9 +22,9 @@ block content
 
                     // Confirm Password 
                     label.form__label(for='passwordConformed') Confirm password 
-                    input#password.form__input(type='password',placeholder='********',minlength='8',required)
+                    input#passwordConformed.form__input(type='password',placeholder='********',minlength='8',required)
 
                 dev.form__group
-                    a.btn.btn--green(href='/signup') Sign up
+                    button.btn.btn--green(type='submit') Sign up
 
 

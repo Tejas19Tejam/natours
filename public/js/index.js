@@ -1,6 +1,6 @@
 /** This file is use to get data from user interface , and delegate it to the modules(e.g map , login etc )  */
 import '@babel/polyfill';
-import { login, logout } from './login.js';
+import { login, logout, signup } from './login.js';
 import { getCallBack } from './map.js';
 import { updateSettings } from './updateSettings.js';
 import { bookTour } from './stripe.js';
@@ -28,6 +28,7 @@ const formUserData = document.querySelector('.form-user-data');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const formUserPwd = document.querySelector('.form-user-settings');
 const bookTourBtn = document.querySelector('#book-tour');
+const signUpForm = document.querySelector('.form--signup');
 
 // DELEGATION
 if (mapBox) {
@@ -116,5 +117,21 @@ if (bookTourBtn) {
     e.preventDefault();
     bookTourBtn.textContent = 'Processing...';
     bookTour(bookTourBtn.dataset.tourId);
+  });
+}
+
+if (signUpForm) {
+  signUpForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    e.preventDefault();
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    let confirmedPassword = document.getElementById('passwordConformed').value;
+    [name, email, password, confirmedPassword] = [
+      ...removeWhiteSpace(name, email, password, confirmedPassword),
+    ];
+
+    signup(name, email, password, confirmedPassword);
   });
 }
