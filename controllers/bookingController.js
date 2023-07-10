@@ -48,7 +48,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
             name: `${tour.name} Tour`,
             description: tour.summary,
             images: [
-              `https://natours-64sh.onrender.com/img/${tour.imageCover}`,
+              `https://natours-64sh.onrender.com/img/tours/${tour.imageCover}`,
             ],
           },
         },
