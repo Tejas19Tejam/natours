@@ -139,6 +139,7 @@ if (signUpForm) {
 }
 
 const alertMessage = document.querySelector('body').dataset.alert;
+console.log(alertMessage);
 if (alertMessage) {
-  showAlert('success', alertMessage, 20);
+  showAlert('success', alertMessage, 10);
 }
