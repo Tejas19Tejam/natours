@@ -33,7 +33,7 @@ export const logout = async () => {
     // console.log(res);
     if (res.data.data.status === 'success') {
       // location.reload(true) is a JavaScript method that reloads the current webpage with the optional parameter true indicating a hard refresh of the page, which means it will ignore the cache and force the browser to re-download the resources from the server.
-      location.reload(true);
+      location.assign('/');
     }
   } catch (err) {
     showAlert('error', 'Error Occurred !');
