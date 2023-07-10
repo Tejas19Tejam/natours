@@ -47,9 +47,9 @@ process.on('unhandledRejection', (err) => {
 });
 
 // Only for Heroku
-process.on('SIGTERM', () => {
-  console.log('SIGTERM receives . Shouting down gracefully !');
-  server.close(() => {
-    console.log('Process Terminated !');
-  });
-});
+// process.on('SIGTERM', () => {
+//   console.log('SIGTERM receives . Shouting down gracefully !');
+//   server.close(() => {
+//     console.log('Process Terminated !');
+//   });
+// });
