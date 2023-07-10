@@ -4,6 +4,8 @@ import { login, logout, signup } from './login.js';
 import { getCallBack } from './map.js';
 import { updateSettings } from './updateSettings.js';
 import { bookTour } from './stripe.js';
+import { showAlert } from './alert.js';
+
 // PROTECTOR
 /**
  *
@@ -134,4 +136,9 @@ if (signUpForm) {
 
     signup(name, email, password, confirmedPassword);
   });
+}
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) {
+  showAlert('success', alertMessage, 20);
 }

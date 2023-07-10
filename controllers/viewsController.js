@@ -95,3 +95,16 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   //   },
   // });
 });
+
+// Show alert message when something major change happen ( Purchase new tour )
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+
+  switch (alert) {
+    case 'booking':
+      res.locals.alert =
+        "Your booking was successful! please check your mail for a confirmation . If your booking does't show up here immediately , please come back later.";
+      break;
+  }
+  next();
+};
