@@ -19,6 +19,7 @@ const toursRouter = require('./routes/tourRoutes.js');
 const globalErrorHandler = require('./controllers/errorController.js');
 const reviewRouter = require('./routes/reviewRoutes.js');
 const bookingRouter = require('./routes/bookingRoutes.js');
+const bookingController = require('./controllers/bookingController.js');
 const viewRoutes = require('./routes/viewRoutes');
 const app = express();
 
@@ -59,6 +60,14 @@ app.use(
   helmet({
     contentSecurityPolicy: false,
   })
+);
+
+// Checkout session route
+// Its return a raw buffer object
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
 );
 
 // Built in middleware
