@@ -2,7 +2,6 @@
 .eslintrc.json
 .firefoxProfile
 .cache
-node_modules
 *.env
 node_modules
 .idea
