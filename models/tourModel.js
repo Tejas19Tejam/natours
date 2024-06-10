@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+const mongoose = require("mongoose");
+const slugify = require("slugify");
 // const User = require('./userModel');
 // Creating Schema for Tours
 const tourSchema = new mongoose.Schema(
@@ -7,33 +7,33 @@ const tourSchema = new mongoose.Schema(
     name: {
       type: String,
       // Validators
-      required: [true, 'A tour must have a name '],
+      required: [true, "A tour must have a name "],
       unique: true,
       trim: true,
-      maxLength: [40, 'The name must be less or equal to 40 characters'],
-      minLength: [10, 'The name must be more or equal to 40 characters'],
+      maxLength: [40, "The name must be less or equal to 40 characters"],
+      minLength: [10, "The name must be more or equal to 40 characters"],
       // Using validator from external library / module
       // validate: [validator.isAlpha, 'Tour name should contain only character'],
     },
     slug: String,
     duration: {
       type: Number,
-      required: [true, 'A tour must have a duration '],
+      required: [true, "A tour must have a duration "],
     },
     maxGroupSize: {
       type: Number,
-      required: [true, 'People count required'],
+      required: [true, "People count required"],
     },
     difficulty: {
       type: String,
-      required: [true, 'A tour must have difficulty'],
-      enum: ['easy', 'medium', 'difficult'],
+      required: [true, "A tour must have difficulty"],
+      enum: ["easy", "medium", "difficult"],
     },
     ratingsAverage: {
       type: Number,
       default: 4.5,
-      max: [5, 'Rating must be less than 5 '],
-      min: [1, 'Rating must be greater or less than 1 '],
+      max: [5, "Rating must be less than 5 "],
+      min: [1, "Rating must be greater or less than 1 "],
       /**
        * @description In Mongoose, a "setter" function is a function that can be defined on a schema property to modify the value of that property before it is saved to the database. A setter function is executed whenever a value is assigned to the property, either directly or through Mongoose's built-in setters.
        * @param {Number} value - Ratings Average
@@ -49,7 +49,7 @@ const tourSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: [true, 'A tour must have a price '],
+      required: [true, "A tour must have a price "],
     },
     // Create custom validator
     // To check priceDiscount is less then actual price
@@ -72,7 +72,7 @@ const tourSchema = new mongoose.Schema(
     summary: {
       type: String,
       trim: true,
-      required: [true, 'A tour must have a summary'],
+      required: [true, "A tour must have a summary"],
     },
     description: {
       type: String,
@@ -80,7 +80,7 @@ const tourSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      required: [true, 'A tour must have a cover image'],
+      required: [true, "A tour must have a cover image"],
     },
     // This will store the array of strings
     images: [String],
@@ -96,8 +96,8 @@ const tourSchema = new mongoose.Schema(
       // GeoJSON object
       type: {
         type: String,
-        default: 'Point',
-        enum: ['Point'],
+        default: "Point",
+        enum: ["Point"],
       },
       // Array of longitude , latitude
       coordinates: [Number],
@@ -108,8 +108,8 @@ const tourSchema = new mongoose.Schema(
       {
         type: {
           type: String,
-          default: 'Point',
-          enum: ['Point'],
+          default: "Point",
+          enum: ["Point"],
         },
         coordinates: [Number],
         description: String,
@@ -119,7 +119,7 @@ const tourSchema = new mongoose.Schema(
     guides: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
     ],
   },
@@ -146,11 +146,11 @@ tourSchema.index({ slug: 1 });
 tourSchema.index({ ratingsAverage: 1, price: 1 });
 
 /** Creating single geographical indexing on startLocation to execute a query more deficient way   */
-tourSchema.index({ startLocation: '2dsphere' });
+tourSchema.index({ startLocation: "2dsphere" });
 
 // Creating Virtual Property
 // virtual property is created each time , when we try to fetch / get data from the database
-tourSchema.virtual('durationWeeks').get(function () {
+tourSchema.virtual("durationWeeks").get(function () {
   // console.log('Running virtual...');
   // The "this" keyword here isTell me more about static method. pointing to the current document
   return this.duration / 7;
@@ -162,10 +162,10 @@ tourSchema.virtual('durationWeeks').get(function () {
  * localField : {Document Field }  - It is any field of the current collection.
  * */
 
-tourSchema.virtual('reviews', {
-  ref: 'Review',
-  localField: '_id', // Find reviews where `localField`
-  foreignField: 'tour', // is equal to `foreignField`
+tourSchema.virtual("reviews", {
+  ref: "Review",
+  localField: "_id", // Find reviews where `localField`
+  foreignField: "tour", // is equal to `foreignField`
 });
 
 // DOCUMENT MIDDLEWARE
@@ -173,14 +173,14 @@ tourSchema.virtual('reviews', {
 // run before .save() and .create() method , but not on .insertMany()
 // This function will be called before an actual document is saved to the database.
 // "this" ====> Currently processed document
-tourSchema.pre('save', function (next) {
+tourSchema.pre("save", function (next) {
   // Creating slug using tour name
   this.slug = slugify(this.name, { lower: true });
   next();
 });
 
-tourSchema.pre('save', function (next) {
-  console.log('Will save the document');
+tourSchema.pre("save", function (next) {
+  console.log("Will save the document");
   next();
 });
 
@@ -199,7 +199,7 @@ tourSchema.pre('save', function (next) {
 
 // Creating a post()-save-hook / middleware
 // Execute after all pre() middleware have completed
-tourSchema.post('save', function (doc, next) {
+tourSchema.post("save", function (doc, next) {
   // console.log(doc);
   next();
 });
@@ -214,7 +214,7 @@ tourSchema.post('save', function (doc, next) {
 // /^find/ (RE)= Run this middleware for all queries start with find
 tourSchema.pre(/^find/, function (next) {
   // tourSchema.pre('find', function (next) {
-  console.log('Executing Pre find query middleware');
+  console.log("Executing Pre find query middleware");
   this.start = Date.now();
   this.find({ secreteTour: { $ne: true } });
   next();
@@ -223,8 +223,8 @@ tourSchema.pre(/^find/, function (next) {
 /** This middleware will populate the given field   */
 tourSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'guides',
-    select: '-__v -passwordResetToken -passwordResetExp -passwordChangedAt',
+    path: "guides",
+    select: "-__v -passwordResetToken -passwordResetExp -passwordChangedAt",
   });
   next();
 });
@@ -233,7 +233,7 @@ tourSchema.pre(/^find/, function (next) {
 // Execute after the query completely executes(i.e all the pre middleware executed)
 // " this " ----> Returned documents
 tourSchema.post(/^find/, function (doc, next) {
-  console.log('Executing Post find query middleware');
+  console.log("Executing Post find query middleware");
   console.log(`Query took ${Date.now() - this.start} milliseconds ! `);
   next();
 });
@@ -257,7 +257,7 @@ tourSchema.post(/^find/, function (doc, next) {
 // Creating Model
 // Alway use Upper case to create model
 // Compile a model from the schema
-const Tour = mongoose.model('Tour', tourSchema);
+const Tour = mongoose.model("Tour", tourSchema);
 
 module.exports = Tour;
 

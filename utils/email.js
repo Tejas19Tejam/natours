@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer');
-const pug = require('pug');
-const htmlToText = require('html-to-text');
-const { google } = require('googleapis');
+const nodemailer = require("nodemailer");
+const pug = require("pug");
+const htmlToText = require("html-to-text");
+const { google } = require("googleapis");
 
 /**
  * @description Create a mail for different situation and send to user
@@ -9,39 +9,49 @@ const { google } = require('googleapis');
 module.exports = class Email {
   constructor(user, url) {
     this.to = user.email;
-    this.firstName = user.name.split(' ')[0];
+    this.firstName = user.name.split(" ")[0];
     this.url = url;
     this.from = `Tejas Tejam <${process.env.EMAIL_FROM}>`;
   }
 
   async newTransport() {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       // Google EMAIL API
       const oAuth2Client = new google.auth.OAuth2(
         process.env.CLIENT_ID,
-        process.env.CLEINT_SECRET,
+        process.env.CLIENT_SECRET,
         process.env.REDIRECT_URI
       );
 
       oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 
-      const accessToken = await oAuth2Client.getAccessToken();
+      try {
+        const accessTokenResponse = await oAuth2Client.getAccessToken();
+        const accessToken = accessTokenResponse.token;
 
-      return nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          type: 'OAuth2',
-          user: 'tejas19tejam@gmail.com',
-          clientId: process.env.CLIENT_ID,
-          clientSecret: process.env.CLEINT_SECRET,
-          refreshToken: process.env.REFRESH_TOKEN,
-          accessToken: accessToken,
-        },
-      });
+        if (!accessToken) {
+          throw new Error("Failed to retrieve access token");
+        }
+
+        return nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            type: "OAuth2",
+            user: "tejas19tejam@gmail.com",
+            clientId: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            refreshToken: process.env.REFRESH_TOKEN,
+            accessToken: accessToken,
+          },
+        });
+      } catch (error) {
+        console.error("Error creating transport:", error);
+        throw error;
+      }
     }
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       return nodemailer.createTransport({
-        host: 'sandbox.smtp.mailtrap.io',
+        host: "sandbox.smtp.mailtrap.io",
         port: 2525,
         secure: false,
         auth: {
@@ -87,13 +97,13 @@ module.exports = class Email {
    * @description Send a welcome mail to user who create's a new account
    */
   async sendWelcomeMail() {
-    await this.send('welcome', 'Welcome to the natours familly !');
+    await this.send("welcome", "Welcome to the natours familly !");
   }
 
   async sendPasswordResetMail() {
     await this.send(
-      'passwordReset',
-      'Your password rest token (valid for only 10 minutes)'
+      "passwordReset",
+      "Your password rest token (valid for only 10 minutes)"
     );
   }
 };
